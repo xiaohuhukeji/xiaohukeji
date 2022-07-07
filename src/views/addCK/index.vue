@@ -38,6 +38,9 @@
 	import {
 		postSpread
 	} from '@/api/XDD';
+	import {
+		user_new
+	} from '@/api/JDme';
 	export default {
 		data() {
 			return {
@@ -48,6 +51,7 @@
 					QQ: ''
 				},
 				copycK: '',
+				nickname:'',
 				rules: {
 					JDck: [{
 						required: true,
@@ -108,6 +112,8 @@
 				this.copycK = pt_key + ';' + pt_pin + ';';
 			},
 			confirm() {
+				// user_new().then(res => {})
+				// 	.catch(() => {});
 				this.$refs.ruleForm.validate((valid) => {
 					if (valid) {
 						let pt_key = "" //获取pt_key
@@ -131,24 +137,58 @@
 						}
 						this.copycK = pt_key + ';' + pt_pin + ';';
 						this.form.dispose = pt_key + ';' + pt_pin + ';';
-						var formData = new FormData();
-						formData.append("token", "342414384");
-						formData.append("ck", this.form.dispose);
-						formData.append("qq", this.form.QQ);
-						postSpread(formData).then(res => {
-								// eslint-disable-next-line no-console
-								console.log(res);
-								if (res.code == '200') {
-									this.$message.success("登录成功");
-									this.$refs.ruleForm.resetFields();
-								}
-							})
-							.catch(() => {
-								this.$message.warning("登录失败");
-							});
+
+
+						var cookies = document.cookie.split(";");
+						for (var i = 0; i < cookies.length; i++) {
+							var cookie = cookies[i];
+							var eqPos = cookie.indexOf("=");
+							var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+							document.cookie =
+								name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+						}
+						if (cookies.length > 0) {
+							for (var i = 0; i < cookies.length; i++) {
+								var cookie = cookies[i];
+								var eqPos = cookie.indexOf("=");
+								var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+								var domain = location.host.substr(location.host.indexOf("."));
+								document.cookie =
+									name +
+									"=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; domain=" +
+									domain;
+							}
+						}
+						document.cookie = this.copycK
+						user_new().then(res => {
+							  if (res.data) {
+								this.nickname=res.data.userInfo.baseInfo.nickname
+								this.addxdd()
+							  }else{
+								this.$message.warning("CK已失效");
+							  }
+						}).catch(() => {});
+
+
 					}
 				});
 			},
+			addxdd() {
+				var formData = new FormData();
+				formData.append("token", "342414384");
+				formData.append("ck", this.form.dispose);
+				formData.append("qq", this.form.QQ);
+				postSpread(formData).then(res => {
+						// eslint-disable-next-line no-console
+						if (res.code == '200') {
+							this.$message.success("恭喜"+this.nickname+"登录成功");
+							this.$refs.ruleForm.resetFields();
+						}
+					})
+					.catch(() => {
+						this.$message.warning("登录失败");
+					});
+			}
 		}
 	};
 </script>

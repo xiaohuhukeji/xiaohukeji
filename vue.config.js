@@ -18,6 +18,14 @@ module.exports = {
 					'^/apii': '',
 				},
 			},
+			'/apijdme': {
+				target: 'https://me-api.jd.com',
+				ws: true,
+				changeOrigin: true,
+				pathRewrite: {
+					'^/apijdme': '',
+				},
+			},
 		},
 	},
 	chainWebpack(config) {

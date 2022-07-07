@@ -4,6 +4,7 @@ export default {
 		// home: '首页',
 		examine: '首页',
 		addCK:'添加CK',
+		queryJD:'资产查询',
 		system: '系统设置',
 		systemMenu: '菜单管理',
 		systemUser: '用户管理',
