@@ -14,7 +14,19 @@
 	export default {
 		data() {
 			return {
-				ck: ''
+				ck: 'pt_key=AAJiwprrADBrX4YrPpcGabK0nXM-dbDLvxei-8Xt0SVoBdnagIDohhWV1gcfZS2InbyM35D3Aog; pt_pin=jd_ihqHxruhcDXX;',
+				message: {
+					nickname: "", //用户名
+					levelName: "", //会员等级
+					isPlusVip: "" //等于1就是puls会员
+				},
+				levelName: {
+					'注册用户': "😊普通",
+					'钻石用户': "💎钻石",
+					'金牌用户': "🥇金牌",
+					'银牌用户': "🥈银牌",
+					'铜牌用户': "🥉铜牌",
+				}
 			};
 		},
 		created() {},
@@ -46,7 +58,14 @@
 				}
 				document.cookie = this.ck
 				user_new().then(res => {
-					console.log(res.data.userInfo.baseInfo.nickname);
+					if (res.data) {
+						this.message.nickname = res.data.userInfo.baseInfo.nickname;
+						this.message.levelName = this.levelName[res.data.userInfo.baseInfo.levelName] || "-";
+						this.message.isPlusVip = res.data.userInfo.baseInfo.isPlusVip;
+					} else {
+						this.$message.warning("CK已失效");
+					}
+					console.log(this.message);
 
 				}).catch(() => {});
 			}

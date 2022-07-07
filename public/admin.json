@@ -30,21 +30,20 @@
 				"roles": ["admin", "common"],
 				"icon": "el-icon-upload"
 			}
+		},{
+			"path": "/queryJD",
+			"name": "queryJD",
+			"component": "queryJD",
+			"meta": {
+				"title": "message.router.queryJD",
+				"isLink": "",
+				"isHide": false,
+				"isKeepAlive": true,
+				"isAffix": true,
+				"isIframe": false,
+				"roles": ["admin", "common"],
+				"icon": "el-icon-search"
+			}
 		}
-		// ,{
-		// 	"path": "/queryJD",
-		// 	"name": "queryJD",
-		// 	"component": "queryJD",
-		// 	"meta": {
-		// 		"title": "message.router.queryJD",
-		// 		"isLink": "",
-		// 		"isHide": false,
-		// 		"isKeepAlive": true,
-		// 		"isAffix": true,
-		// 		"isIframe": false,
-		// 		"roles": ["admin", "common"],
-		// 		"icon": "el-icon-search"
-		// 	}
-		// }
 	]
 }
