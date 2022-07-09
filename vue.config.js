@@ -41,7 +41,11 @@ module.exports = {
 				pathRewrite: {
 					'^/apiJDAsset': '',
 				},
+				headers: {
+					referer: 'https://wqs.jd.com/',
+				}
 			},
+			
 		},
 	},
 	chainWebpack(config) {

@@ -2,6 +2,7 @@
 	<!-- 添加CK -->
 	<div class="home">
 		<div>
+			<meta name="referrer" content="same-origin" />
 			<el-button @click="inquire">默认按钮</el-button>
 		</div>
 	</div>
@@ -20,7 +21,7 @@
 	export default {
 		data() {
 			return {
-				ck: 'pt_key=AAJis-Q6ADDlXixvnAaFkpkSGhUJRfqF_STz2PvMwpmJV4f3z74Ka-j2XNuI_Yr6tAbG9ymh7s0;pt_pin=jd_72fb8c3509eab;',
+				ck: 'pt_key=AAJitpEaADBvXWzDTN5LWO8QEkOzFNdlFraXG8A9ojwpKNY8kBeeZXR8YY0595Knak_m8B5ezSs;pt_pin=jd_5795feed172f0;',
 				message: {
 					nickname: "", //用户名
 					levelName: "", //会员等级
@@ -104,11 +105,10 @@
 						this.message.jingBean = jingBean
 						this.message.uclass = uclass
 					}
-					console.log(parseInt((Date.now() + 28800000) / 86400000) * 86400000 - 28800000 - (24 * 60 *
-						60 * 1000));
+				//	console.log(parseInt((Date.now() + 28800000) / 86400000) * 86400000 - 28800000 - (24 * 60 *60 * 1000));
 				}).catch(() => {});
 			},
-		    gainProperty(){ //本地ip无法获取
+		    gainProperty(){
 				property().then(res => {
 				
 				}).catch(() => {});
