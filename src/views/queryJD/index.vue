@@ -10,15 +10,24 @@
 <script>
 	import {
 		user_new
-	} from '@/api/JDme';
+	} from '@/api/JDUser';
+	import {
+		grade
+	} from '@/api/JDGrade';
+	import {
+		property
+	} from '@/api/JDAsset';
 	export default {
 		data() {
 			return {
-				ck: 'pt_key=AAJiwprrADBrX4YrPpcGabK0nXM-dbDLvxei-8Xt0SVoBdnagIDohhWV1gcfZS2InbyM35D3Aog; pt_pin=jd_ihqHxruhcDXX;',
+				ck: 'pt_key=AAJis-Q6ADDlXixvnAaFkpkSGhUJRfqF_STz2PvMwpmJV4f3z74Ka-j2XNuI_Yr6tAbG9ymh7s0;pt_pin=jd_72fb8c3509eab;',
 				message: {
 					nickname: "", //用户名
 					levelName: "", //会员等级
-					isPlusVip: "" //等于1就是puls会员
+					isPlusVip: "", //等于1就是puls会员
+					jingBean: "", //当前京豆
+					uclass: "", //京享值
+
 				},
 				levelName: {
 					'注册用户': "😊普通",
@@ -36,6 +45,19 @@
 				//sessionStorage.clear()//清除
 				//Session.set('token',JSON.parse(JSON.stringify(this.ck))); //保存
 				//console.log(sessionStorage.getItem('token'));//取
+
+				this.clear() //清理cookie
+				this.gain()
+			},
+			async gain() {
+				//获取用户信息
+				await this.gainUser()
+				//获取当前京豆
+				await this.gainGrade()
+				//获取京东
+				await this.gainProperty()
+			},
+			clear() {
 				var cookies = document.cookie.split(";");
 				for (var i = 0; i < cookies.length; i++) {
 					var cookie = cookies[i];
@@ -57,6 +79,8 @@
 					}
 				}
 				document.cookie = this.ck
+			},
+			gainUser() {
 				user_new().then(res => {
 					if (res.data) {
 						this.message.nickname = res.data.userInfo.baseInfo.nickname;
@@ -65,10 +89,30 @@
 					} else {
 						this.$message.warning("CK已失效");
 					}
-					console.log(this.message);
-
 				}).catch(() => {});
-			}
+			},
+			gainGrade() {
+				let date = Date.now()
+				grade(date).then(res => {
+					if (res.user) {
+						let {
+							petName,
+							jingBean,
+							uclass
+						} = res.user
+						// this.message.nickname=petName
+						this.message.jingBean = jingBean
+						this.message.uclass = uclass
+					}
+					console.log(parseInt((Date.now() + 28800000) / 86400000) * 86400000 - 28800000 - (24 * 60 *
+						60 * 1000));
+				}).catch(() => {});
+			},
+		    gainProperty(){ //本地ip无法获取
+				property().then(res => {
+				
+				}).catch(() => {});
+			},
 		}
 	};
 </script>

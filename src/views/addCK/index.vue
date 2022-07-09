@@ -40,7 +40,7 @@
 	} from '@/api/XDD';
 	import {
 		user_new
-	} from '@/api/JDme';
+	} from '@/api/JDUser';
 	export default {
 		data() {
 			return {

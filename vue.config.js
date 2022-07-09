@@ -18,12 +18,28 @@ module.exports = {
 					'^/apii': '',
 				},
 			},
-			'/apijdme': {
+			'/apiJDUser': {
 				target: 'https://me-api.jd.com',
 				ws: true,
 				changeOrigin: true,
 				pathRewrite: {
-					'^/apijdme': '',
+					'^/apiJDUser': '',
+				},
+			},
+			'/apiJDGrade': {
+				target: 'https://wxapp.m.jd.com',
+				ws: true,
+				changeOrigin: true,
+				pathRewrite: {
+					'^/apiJDGrade': '',
+				},
+			},
+			'/apiJDAsset': {
+				target: 'https://api.m.jd.com',
+				ws: true,
+				changeOrigin: true,
+				pathRewrite: {
+					'^/apiJDAsset': '',
 				},
 			},
 		},
