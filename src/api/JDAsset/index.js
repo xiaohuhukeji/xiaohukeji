@@ -8,3 +8,28 @@ export function property() {
 		data: null,
 	});
 }
+
+//获取东东农场
+export function farmPlantget() {
+	return request({
+		url: '?functionId=taskInitForFarm&version=14&channel=1&babelChannel=120&appid=wh5',
+		method: 'get',
+		data: null,
+	});
+}
+//获取东东农场
+export function farmPlant() {
+	return request({
+		url: '?functionId=initForFarm&appid=wh5&clientVersion=9.1.0&version=4',
+		method: 'post',
+		data: null,
+	});
+}
+//获取东东萌宠
+export function adorable() {
+	return request({
+		url: '?functionId=initPetTown&appid=wh5&loginWQBiz=pet-town&clientVersion=9.0.4',
+		method: 'post',
+		data: null,
+	});
+}

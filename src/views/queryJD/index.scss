@@ -1,5 +1,60 @@
 .home {
 	width: 100%;
 	overflow: hidden;
-	
+	.statistics {
+		.propertyStyle {
+			margin-top: 20px;
+		}
+	}
+	.statistics div {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 20px;
+	}
+	.interval {
+		margin-bottom: 10px;
+	}
+	.property {
+		.red {
+			color: #ff0000;
+		}
+		.green {
+			color: #00b050;
+		}
+		.yellow {
+			color: #feb22f;
+		}
+	}
+	.property span {
+		margin-right: 10px;
+	}
+	.window {
+		.el-form {
+			width: 100%;
+		}
+	}
+	.box-card1 {
+		padding: 0 20px;
+		border-radius: 4px;
+		// border: 1px solid #ebeef5;
+		background-color: #fff;
+		overflow: hidden;
+		color: #303133;
+		transition: 0.3s;
+		margin-bottom: 20px;
+	}
+	.box-card2 {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		.el-form{
+			width: 100%;
+		}
+	}
+
+	// @media screen and (max-width: 1200px) {
+	// 	.statistics div {
+	// 		margin-bottom: 20px;
+	// 	}
+	// }
 }

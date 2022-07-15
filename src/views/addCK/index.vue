@@ -5,7 +5,7 @@
 			<el-card class="frame" shadow="always">
 				<div class="centered">
 					<el-form :model="form" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-						<el-form-item label="输入获取CK:" prop="JDck">
+						<el-form-item label="输入获取的CK:" prop="JDck">
 							<el-input @change="monitor" v-model="form.JDck" placeholder="请输入" />
 						</el-form-item>
 						<el-form-item label="输入QQ号:" prop="QQ">
@@ -55,7 +55,7 @@
 				rules: {
 					JDck: [{
 						required: true,
-						message: '请获取CK',
+						message: '请填写获取的CK',
 						trigger: 'blur'
 					}],
 					QQ: [{
