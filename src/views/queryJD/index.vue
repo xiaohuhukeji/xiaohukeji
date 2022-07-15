@@ -13,7 +13,7 @@
 			<el-card class="box-card2">
 				<el-form :model="form" label-position='top' :rules="rules" ref="ruleForm" label-width="100%"
 					class="demo-ruleForm">
-					<el-form-item label="输入获取的CK:" prop="JDck">
+					<el-form-item label="输入获取CK:" prop="JDck">
 						<el-input @change="confirm" v-model="form.JDck" placeholder="请输入" />
 					</el-form-item>
 				</el-form>
@@ -52,7 +52,7 @@
 				</el-card>
 				<meta name="referrer" content="same-origin" />
 			</div>
-			<div>
+			<div class="interval">
 				<el-row :gutter="10">
 					<el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="12">
 						<el-card class="box-card">
@@ -70,6 +70,18 @@
 					</el-card>
 				</el-col> -->
 				</el-row>
+			</div>
+			<div class="interval">
+				<el-card class="box-card">
+					<el-table :data="statisticsdata" border style="width: 100%">
+						<el-table-column prop="createDate" label="日期">
+						</el-table-column>
+						<el-table-column prop="amount" label="收益">
+						</el-table-column>
+						<el-table-column prop="visibleInfo" label="活动名称">
+						</el-table-column>
+					</el-table>
+				</el-card>
 			</div>
 		</div>
 	</div>
@@ -130,7 +142,7 @@
 		data() {
 
 			return {
-				Pagestate:"register",
+				Pagestate: "register",
 				form: {
 					JDck: "",
 				},
@@ -177,6 +189,7 @@
 					newlyadd: 0, //新增
 					pastdue: 0, //过期
 				}],
+				statisticsdata: [],
 				dataFormat1: [{
 						value: 0,
 						name: "新增"
@@ -235,13 +248,12 @@
 		},
 
 		methods: {
-			Pagestateleave(){
-				console.log("123123");
-              if (this.copycK==null) {
+			Pagestateleave() {
+				if (this.copycK == null) {
 					this.$message.warning("未填写ck无法切换");
 					return false;
-			  }
-			  return true;
+				}
+				return true;
 			},
 			// confirmClose() {
 			// 	this.$message.warning("未填写ck无法关闭");
@@ -276,9 +288,9 @@
 							if (res.data) {
 								this.ck = this.copycK;
 							} else {
-								this.ck =null;
-								this.copycK=null;
-								this.form.JDck=null;
+								this.ck = null;
+								this.copycK = null;
+								this.form.JDck = null;
 								this.$message.warning("CK已失效");
 							}
 						}).catch(() => {});
@@ -407,6 +419,7 @@
 				}]
 				// console.log(this.formatDate(atPresent),this.formatDate(atPresent1));
 				property().then(res => {
+					this.statisticsdata = res.list;
 					res.list.forEach(element => {
 						this.statistics.forEach((elemen1, index) => {
 							if (element.createDate.substring(0, 10) == elemen1.time) {
@@ -453,9 +466,7 @@
 				}).catch(() => {});
 			},
 			adorable() {
-				adorable().then(res => {
-					console.log(res);
-				}).catch(() => {});
+				adorable().then(res => {}).catch(() => {});
 			},
 			// 处理时间戳，返回 yyyy-MM-dd格式
 			formatDate(time) {
