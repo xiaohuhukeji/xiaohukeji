@@ -350,7 +350,8 @@
 					if (res.data) {
 						this.message.nickname = res.data.userInfo.baseInfo.nickname;
 						this.message.levelName = this.levelName[res.data.userInfo.baseInfo.levelName] || "-";
-						this.message.isPlusVip = res.data.userInfo.baseInfo.isPlusVip;
+						this.message.isPlusVip = res.data.userInfo.isPlusVip;
+						console.log(this.message.isPlusVip);
 					} else {
 						this.$message.warning("CK已失效");
 					}
