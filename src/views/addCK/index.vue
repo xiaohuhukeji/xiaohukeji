@@ -35,6 +35,11 @@
 </template>
 
 <script>
+		import {
+        setStorage,
+        getStorage,
+        clearStorage
+    } from '../../utils/stockpile';
 	import {
 		postSpread
 	} from '@/api/XDD';
@@ -67,7 +72,11 @@
 			};
 		},
 		created() {},
-		mounted() {},
+		mounted() {
+			// setStorage('user',JSON.stringify(this.rules.JDck)) //保存
+			// let fetch=getStorage('user')
+			// console.log(fetch);  //取
+		},
 		methods: {
 			skip() {
 				window.open('http://xiaohukeji.vip:181/index.php/2022/06/23/%e4%ba%ac%e4%b8%9c%e8%8e%b7%e5%8f%96ck/',

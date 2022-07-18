@@ -11,13 +11,38 @@
 		</div>
 		<div v-if="Pagestate=='register'" class="home">
 			<el-card class="box-card2">
+				<el-tabs tab-position="left" style="height: 200px;" :before-leave="chopAccount">
+					<el-tab-pane label="多账号切换">
+						<el-form size='small' :model="form" label-position='top' :rules="rules" ref="ruleForm"
+							label-width="100%" class="demo-ruleForm">
+							<el-form-item label="切换账号:">
+								<el-select @change="confirm" v-model="form.JDck" placeholder="请选择">
+									<el-option v-for="item in accountChoice" :key="item.id" :label="item.accountName"
+										:value="item.CK">
+									</el-option>
+								</el-select>
+							</el-form-item>
+						</el-form>
+
+					</el-tab-pane>
+					<el-tab-pane label="添加账号">
+						<el-form size='small' :model="form" label-position='top' :rules="rules" ref="ruleForm"
+							label-width="100%" class="demo-ruleForm">
+							<el-form-item label="输入获取CK:" prop="JDck">
+								<el-input @change="confirm" v-model="form.JDck" placeholder="请输入" />
+							</el-form-item>
+						</el-form>
+					</el-tab-pane>
+				</el-tabs>
+			</el-card>
+			<!-- <el-card class="box-card2">
 				<el-form :model="form" label-position='top' :rules="rules" ref="ruleForm" label-width="100%"
 					class="demo-ruleForm">
 					<el-form-item label="输入获取CK:" prop="JDck">
 						<el-input @change="confirm" v-model="form.JDck" placeholder="请输入" />
 					</el-form-item>
 				</el-form>
-			</el-card>
+			</el-card> -->
 		</div>
 		<div v-if="Pagestate=='inquire'" class="home">
 			<div class="interval">
@@ -88,6 +113,11 @@
 </template>
 
 <script>
+	import {
+		setStorage,
+		getStorage,
+		clearStorage
+	} from '../../utils/stockpile';
 	import circleShow from './module/circle'
 	import {
 		user_new
@@ -142,6 +172,8 @@
 		data() {
 
 			return {
+				accountChoice: [],
+				exist: true,
 				Pagestate: "register",
 				form: {
 					JDck: "",
@@ -237,12 +269,18 @@
 		},
 		created() {},
 		mounted() {
+			if (getStorage('gainJDCK')) {
+				if (getStorage('gainJDCK').length == '0') {
+					this.accountChoice = [];
+				} else {
+					this.accountChoice = getStorage('gainJDCK')
+				}
+			}
 			var that = this;
-			// <!--把window.onresize事件挂在到mounted函数上-->
 			window.onresize = () => {
 				return (() => {
 					window.fullWidth = document.documentElement.clientWidth;
-					that.windowWidth = window.fullWidth; // 宽
+					that.windowWidth = window.fullWidth;
 				})()
 			}
 		},
@@ -255,9 +293,9 @@
 				}
 				return true;
 			},
-			// confirmClose() {
-			// 	this.$message.warning("未填写ck无法关闭");
-			// },
+			chopAccount() {
+				this.form.JDck = "";
+			},
 			confirm() {
 				this.$refs.ruleForm.validate((valid) => {
 					if (valid) {
@@ -288,10 +326,16 @@
 							if (res.data) {
 								this.ck = this.copycK;
 							} else {
+								this.accountChoice.forEach((item, index) => {
+									if (item.CK == this.form.JDck) {
+										this.accountChoice.splice(index, 1);
+									}
+								});
 								this.ck = null;
 								this.copycK = null;
 								this.form.JDck = null;
 								this.$message.warning("CK已失效");
+								setStorage('user', JSON.stringify(this.accountChoice))
 							}
 						}).catch(() => {});
 
@@ -351,7 +395,31 @@
 						this.message.nickname = res.data.userInfo.baseInfo.nickname;
 						this.message.levelName = this.levelName[res.data.userInfo.baseInfo.levelName] || "-";
 						this.message.isPlusVip = res.data.userInfo.isPlusVip;
-						console.log(this.message.isPlusVip);
+						this.exist = true;
+						this.accountChoice.forEach((item, index) => {
+							if (item.CK == this.form.JDck) {
+								this.exist = false
+							}
+						});
+						if (this.exist) {
+							if (this.accountChoice.length == '0') {
+								let add = {
+									id: 1,
+									accountName: this.message.nickname,
+									CK: this.form.JDck,
+								}
+								this.accountChoice.push(add)
+								setStorage('user', JSON.stringify(this.accountChoice))
+							} else {
+								let add = {
+									id: this.accountChoice.length + 1,
+									accountName: this.message.nickname,
+									CK: this.form.JDck,
+								}
+								this.accountChoice.push(add)
+								setStorage('user', JSON.stringify(this.accountChoice))
+							}
+						}
 					} else {
 						this.$message.warning("CK已失效");
 					}
