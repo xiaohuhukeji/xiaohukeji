@@ -269,13 +269,12 @@
 		},
 		created() {},
 		mounted() {
-			if (getStorage('gainJDCK')) {
-				if (getStorage('gainJDCK').length == '0') {
-					this.accountChoice = [];
-				} else {
-					this.accountChoice = getStorage('gainJDCK')
-				}
+			if (getStorage('gainJDCK') == null) {
+				this.accountChoice = [];
+			} else {
+				this.accountChoice = getStorage('gainJDCK')
 			}
+			console.log(getStorage('gainJDCK'));
 			var that = this;
 			window.onresize = () => {
 				return (() => {
@@ -335,7 +334,7 @@
 								this.copycK = null;
 								this.form.JDck = null;
 								this.$message.warning("CK已失效");
-								setStorage('user', JSON.stringify(this.accountChoice))
+								setStorage('gainJDCK', JSON.stringify(this.accountChoice))
 							}
 						}).catch(() => {});
 
@@ -409,7 +408,7 @@
 									CK: this.form.JDck,
 								}
 								this.accountChoice.push(add)
-								setStorage('user', JSON.stringify(this.accountChoice))
+								setStorage('gainJDCK', JSON.stringify(this.accountChoice))
 							} else {
 								let add = {
 									id: this.accountChoice.length + 1,
@@ -417,7 +416,7 @@
 									CK: this.form.JDck,
 								}
 								this.accountChoice.push(add)
-								setStorage('user', JSON.stringify(this.accountChoice))
+								setStorage('gainJDCK', JSON.stringify(this.accountChoice))
 							}
 						}
 					} else {
